@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.3.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd">
+
+	<!-- Add support for conversion, formatting and validation support -->
+	<context:annotation-config />
+
+	<!-- Add support for component scanning -->
+	<context:component-scan
+		base-package="location.model,room.model,trainer.model,event.model" />
+
+
+	<!-- DataSource -->
+	<bean id="dataSource" class="org.springframework.jndi.JndiObjectFactoryBean">
+		<property name="jndiName" value="java:/comp/env/jdbc/xxx" />
+	</bean>
+
+	<!-- Setup Hibernate session factory -->
+	<bean id="sessionFactory"
+		class="org.springframework.orm.hibernate5.LocalSessionFactoryBean">
+		<property name="dataSource" ref="dataSource" />
+		<property name="packagesToScan">
+			<list>
+				<value>member.model</value>
+				<value>location.model</value>
+				<value>room.model</value>
+				<value>trainer.model</value>
+				<value>event.model</value>
+			</list>
+		</property>
+		<property name="hibernateProperties">
+			<props>
+				<prop key="hibernate.dialect">org.hibernate.dialect.SQLServerDialect</prop>
+<!-- 				<prop key="hibernate.show_sql">true</prop> -->
+				<prop key="hibernate.enable_lazy_load_no_trans">true</prop>
+			</props>
+		</property>
+	</bean>
+
+
+	<!-- Setup Hibernate transaction manager -->
+	<bean id="transactionManager"
+		class="org.springframework.orm.hibernate5.HibernateTransactionManager">
+		<property name="sessionFactory" ref="sessionFactory" />
+	</bean>
+
+	<!-- Enable configuration of transactional behavior based on annotations -->
+	<tx:annotation-driven transaction-manager="transactionManager" />
+
+
+	<tx:advice id='txAdvuce' transaction-manager="transactionManager">
+		<tx:attributes>
+			<tx:method name="*" />
+		</tx:attributes>
+	</tx:advice>
+
+	<aop:config>
+		<aop:pointcut
+			expression="execution(* event.model.*.*(..) ) || execution(*  location.model.*.*(..) ) || execution(*  room.model.*.*(..) ) || execution(*  trainer.model.*.*(..) )"
+			id="txPointcut" />
+		<aop:advisor advice-ref="txAdvuce" pointcut-ref="txPointcut" />
+	</aop:config>
+
+
+
+<!-- 	<mvc:resources mapping="/css/**" location="/css/" /> -->
+<!-- 	<mvc:resources mapping="/fonts/**" location="/fonts/" /> -->
+<!-- 	<mvc:resources mapping="/js/**" location="/js/" /> -->
+
+</beans>

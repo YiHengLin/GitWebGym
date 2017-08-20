@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Context>
+	<Resource name="jdbc/xxx" auth="Container" type="javax.sql.DataSource"
+               maxTotal="150" maxIdle="50" maxWaitMillis="10000000"
+               username="sa" password="12345" driverClassName="com.microsoft.sqlserver.jdbc.SQLServerDriver"
+               url="jdbc:sqlserver://localhost:1433;database=Temmujin_Group"/>
+
+<!-- 雲端 -->
+<!-- 	<Resource name="jdbc/xxx" auth="Container" type="javax.sql.DataSource" -->
+<!--                maxTotal="150" maxIdle="30" maxWaitMillis="10000000" -->
+<!--                username="memberuser@eeit95group4" password="Javaeeit954" driverClassName="com.microsoft.sqlserver.jdbc.SQLServerDriver" -->
+<!--                url="jdbc:sqlserver://eeit95group4.database.windows.net:1433;database=Temmujin_Group"/> -->
+
+
+</Context>

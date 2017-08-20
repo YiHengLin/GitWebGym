@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+
+	<bean id="hello.success" class="org.springframework.web.servlet.view.RedirectView">
+		<property name="url" value="/event_result.jsp"></property>
+		<property name="contextRelative" value="true"></property>
+	</bean>
+
+
+	<!-- <bean id="hello.success" -->
+	<!-- class="org.springframework.web.servlet.view.InternalResourceView"> -->
+	<!-- <property name="url" value="/success.jsp"></property> -->
+	<!-- </bean> -->
+</beans>
