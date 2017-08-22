@@ -9,8 +9,9 @@
 
 <link href="https://fonts.googleapis.com/earlyaccess/notosanstc.css" rel="stylesheet">
 
-<link rel="Shortcut icon" type="image/x-icon" href="images/Temmujiicon1.ico">
+<link rel="Shortcut icon" type="image/x-icon" href="../images/Temmujiicon1.ico">
 <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
+<link rel="stylesheet" href="https://fonts.googleapis.com/earlyaccess/notosanstc.css"> <!-- 中文字型:思源黑體 -->
 <link href='../css/fullcalendar.min.css' rel='stylesheet' />
 <link href='../css/jquery.qtip.min.css' rel='stylesheet' />
 <link href="../css/bootstrap.min.css" rel="stylesheet" />
@@ -36,31 +37,29 @@
 
 
 <style>
-/* @media (min-width: 1200px) { */
-/*     .container{ */
-/*         max-width: 1200px; */
-/*     } */
-/* } */
-
 
 body {
 	margin: 40px 10px;
 	padding: 0;
 	font-family: "Lucida Grande", Helvetica, Arial, Verdana, sans-serif;
-	font-size: 14px;
-	background-image: url(../images/opencourse_bg.jpg);
+	font-size: 16px;
+	background-image: url(../images/news-bg.jpg);
+	background-size:cover;
 	background-size: color;
-/*   	background-color: #002147;   */
 }
 h1,h2,h3,h4,h5,h6{
 	font-family: 'Montserrat', sans-serif;
 }
 
 #calendar {
-	width: 100%;
+	width: 80%;
  	margin: 30px auto; 
  	background-color:#ffffff;
  	
+}
+
+div.fc-content{
+	font-family: 'Noto Sans TC', sans-serif;
 }
 
 #icons {
@@ -90,8 +89,7 @@ h1,h2,h3,h4,h5,h6{
 	background-color:#97C8D9;
 	color:#F0E7BE;
  	font-weight: bold; 
-	font-style:italic;
-	font-family: 'Noto Serif', serif;
+	font-family: 'Noto Sans TC', sans-serif;
 	font-size: 20px;
 }
 
@@ -171,17 +169,17 @@ h1,h2,h3,h4,h5,h6{
 				console.log("data="+data)
 				
 				if(data=='edit success'){
-					$("#msg-content").html('修改成功!')
+					$("#msg-content").html('<h2 style="color:#002147;">Update Course Successfully !</h2>')
 					$("#msg-modal").modal()
 				}
 				
 				if(data=='add success'){
-					$("#msg-content").html('新增成功!')
+					$("#msg-content").html('<h2 style="color:#96B6B8;">Open Course Successfully !</h2>')
 					$("#msg-modal").modal()
 				}
 				
 				if(data=='delete success'){
-					$("#msg-content").html('刪除成功!')
+					$("#msg-content").html('<h2 style="color:#990000;">You Just Deleted A Course !</h2>')
 					$("#msg-modal").modal()
 				}
 				
@@ -236,14 +234,14 @@ h1,h2,h3,h4,h5,h6{
 		$('#calendar').fullCalendar({
 			
 			schedulerLicenseKey: 'GPL-My-Project-Is-Open-Source',
-			defaultView: 'agendaWeek',
+			defaultView: 'month',
 			allDaySlot: false,
 			header : {
 				left : 'prev,next today',
 				center : 'title',
 				right : 'month,agendaWeek'
 			},
-			defaultDate : '2017-08-30',
+			defaultDate : '2017-09-13',
 			firstDay:1,
 			//slotDuration:"01:00:00",
 			minTime: "09:00:00",
@@ -286,28 +284,17 @@ h1,h2,h3,h4,h5,h6{
  				})
 
 				// Customize slot's height
-// 				var slatHeight = $("#calendar").find('.fc-slats').height();
-// 				var height = $('#calendar').find('.fc-time-grid-container').height();
-// 				console.log("slatHeight="+slatHeight+" ,height"+height)
-// 				$('#calendar').find('.fc-widget-content').css('height',(height/15-1)+'px');	
+				var slatHeight = $("#calendar").find('.fc-slats').height();
+				var height = $('#calendar').find('.fc-time-grid-container').height();
+				console.log("slatHeight="+slatHeight+" ,height"+height)
+				$('#calendar').find('.fc-widget-content').css('height',(height/30-1)+'px');	
 			},
 			
 			// Create New Event 
 			select: function( start, end, jsEvent, view){
 				console.log("---\nDay Select")
-				console.log("In select, event.trainerId="+event.trainerId)
-				
-				const oneday = 24*60*60*1000
-				var correct_end =  end-oneday
 				
 				if(view.name=="month"){
-					
-					console.log('Month view, start='+start.format()+" ,end="+end.format())
-					var _year = new Date(correct_end).getFullYear()
-					var _month = ((new Date(correct_end).getMonth()+1)<10)?("0"+(new Date(correct_end).getMonth()+1)):(new Date(correct_end).getMonth()+1)
-					var _day = new Date(correct_end).getDate()
-					end = _year+"-"+_month+"-"+_day
-					
 					$("#start,#end").datetimepicker('destroy')
 					$("#start,#end").timepicker({
 						timeOnly:true,
@@ -322,18 +309,18 @@ h1,h2,h3,h4,h5,h6{
 					$("#enddiv").css('display','inline')
 					$("#start").val("")
 					$("#end").val("")
-					$("#multiple").val((start.format()+","+end)) 
-					$('#modalTitle').html("新增課程 :  "+"( 課程期間 : " +start.format()+" 到 "+end+" )")
+					$("#multiple").val((start.format()+","+end.subtract(1, "days").format())) 
+					$('#modalTitle').html("新增課程 :  "+"( 課程期間 : " +start.format()+" 到 "+end.format()+" )")
 				}
-				
+
 				if(view.name=="agendaWeek"){
-					console.log('agendaWeek view, start='+start.format()+" ,end="+end.format())
+					console.log('agendaWeek view, start='+start.format("YYYY-MM-DD HH:mm")+" ,end="+end.format("YYYY-MM-DD HH:mm"))
 					$('input:checkbox').prop('checked',false)
 					$("#startdiv").css('display','none')
 					$("#enddiv").css('display','none')
-					$("#start").val(start.format())
-					$("#end").val(end.format())
-					$("#multiple").val((start.format()+","+end.format())) 
+					$("#start").val(start.format("YYYY-MM-DD HH:mm"))
+					$("#end").val(end.format("YYYY-MM-DD HH:mm"))
+					$("#multiple").val((start.format("YYYY-MM-DD")+","+end.format("YYYY-MM-DD"))) 
 					$('#modalTitle').html("新增課程 :  "+"( 課程時間 : " +start.format("YYYY-MM-DD HH:mm")+" 到 "+end.format("YYYY-MM-DD HH:mm")+" )")
 				}
 				
@@ -381,20 +368,17 @@ h1,h2,h3,h4,h5,h6{
 			
 			// Update Event Method - 3
 			eventClick : function(event, jsEvent, view) {
-				console.log("selectable="+event.editable)
 				console.log("---\neventClick")
 				console.log("id="+event.id+", title="+event.title+", trainerId="+event.trainerId+", resourceId="+event.resourceId+
 						  	", coursekind="+event.coursekind+", start="+event.start+", end="+event.end)
 					
-				var _start=_end =null
-				_start = getStartEnd(event.start,event.end).split(",")[0]
-				_end = getStartEnd(event.start,event.end).split(",")[1]
+
 				//  Data sent to Server 
 				$("#action").val("edit")				
 				$("#eventid").val(event.id)
 				$("#title").val(event.title);	
-				$("#start").val(_start)
-				$("#end").val(_end)	
+				$("#start").val(event.start.format('YYYY-MM-DD HH:mm'))
+				$("#end").val(event.end.format('YYYY-MM-DD HH:mm'))	
 				$("#trainerId").val(event.trainerId)
 				$("#coursekind").val(event.coursekind)
 				$("#charge").val(event.charge)	
@@ -404,7 +388,7 @@ h1,h2,h3,h4,h5,h6{
 				// Form UI
 				$("#start,#end").timepicker('destroy')
 				$("#start,#end").datetimepicker({
-					dateFormat: "yy-mm-dd",
+// 					dateFormat: "yy-mm-dd",
 				    timeFormat:  "HH:mm",
 				    showMinute: false,
 				});
@@ -427,12 +411,13 @@ h1,h2,h3,h4,h5,h6{
 				// Check if mathch trainerId to disable input or not 
 				$("#trainerModal input").prop('disabled',false)
 				$("#room").prop('disabled',false)
-				
-				if(identity!=event.trainerId.toLowerCase()){
+				console.log("identity="+identity+" ,event.trainerId="+event.trainerId)
+				if(identity!=event.trainerId){
 					console.log("can't modify")
 					$("#delsubmit").css('display','none')
 					$("#addsubmit").css('display','none')	
 				 	$("#cancelbtn").html('Got it!')
+				 	$('#modalTitle').html(event.title + ' ( '+event.trainerId+' )');
 					$("#trainerModal input").prop('disabled',true)
 					$("#room").prop('disabled',true)
 				}
@@ -441,8 +426,7 @@ h1,h2,h3,h4,h5,h6{
 			},
 			
 		}); // End of fullcalendar 
-		
-		$("#successalert").hide();
+		$('#calendar').fullCalendar('rerenderEvents')
 		
 		// coursekind checkbox group
 		$("input:checkbox").on('click', function() {
@@ -460,18 +444,14 @@ h1,h2,h3,h4,h5,h6{
 		// invoked in eventDrop and eventResize 
 		function updateEventMethod(event){
 			console.log("id="+event.id+", title="+event.title+", trainerId="+event.trainerId+", resourceId="+event.resourceId+
-				  	", coursekind="+event.coursekind+", start="+event.start.format()+", end="+event.end.format())
-				  	
-			var _start,_end = ""
-			var result= getStartEnd(event.start,event.end)
-			_start = result.split(",")[0]
-			_end = result.split(",")[1]
+				  	", coursekind="+event.coursekind+", start="+event.start.format('YYYY-MM-DD HH:mm')+", end="+event.end.format('YYYY-MM-DD HH:mm'))
+			
 			//  Data sent to Server 
 			$("#action").val("edit")
 			$("#eventid").val(event.id)
 			$("#title").val(event.title);	
-			$("#start").val(_start)
-			$("#end").val(_end)	
+			$("#start").val(event.start.format('YYYY-MM-DD HH:mm'))
+			$("#end").val(event.end.format('YYYY-MM-DD HH:mm'))	
 			$("#trainerId").val(event.trainerId)
 			$("#coursekind").val(event.coursekind)
 			$("#charge").val(event.charge)	
@@ -495,7 +475,7 @@ h1,h2,h3,h4,h5,h6{
 				data : $(test).serialize(),
 	
 			}).done(function(data) {
-				console.log("success"); 
+				console.log("Resize/Drop success"); 
 				
 				$.get(contextPath+'/json?identity='+identity+"&location="+location+"&kind="+kind+"&trainersearch="+trainersearch,{},function(result){
 					
@@ -508,30 +488,6 @@ h1,h2,h3,h4,h5,h6{
 			}).fail(function(data) {
 				console.log("Posting failed.");
 			});	
-		}
-		
-		function getStartEnd(start,end){
-			
-			var d, _year, _month, _day, _hour, _start, _end, offset 
-			
-			d= new Date()			
-			offset = d.getTimezoneOffset()*(-1)*60*1000 //TimezoneOffset in milliseconds
-			d = new Date((start-offset))
-			_year= d.getFullYear()
-			_month = d.getMonth()+1
-			_day = d.getDate()
-			_hour = ((d.getHours())<10)?("0"+(d.getHours())):(d.getHours());
-			_start = _year+"-"+_month+"-"+_day+" "+_hour+":00"
-			
-			
-			d= new Date((end-offset))
-			_year= d.getFullYear()
-			_month = d.getMonth()+1
-			_day = d.getDate()
-			_hour = ((d.getHours())<10)?("0"+(d.getHours())):(d.getHours());
-			_end = _year+"-"+_month+"-"+_day+" "+_hour+":00"
-			
-			return (_start+","+_end)
 		}
 		
 		// Generate room options in form, Executed in dayClick callback
@@ -577,11 +533,11 @@ h1,h2,h3,h4,h5,h6{
 				tb.empty();
 	
 		        $.each(mycourses, function (idx,course) {
-		        	if(identity == course.trainerId.toLowerCase()){
+		        	if(identity == course.trainerId){
 		        		var theRoom = rooms.filter(function(room){return (room.id == course.resourceId)})
 		                var cell1 = $('<td></td>').text(course.title);
-		                var cell2 = $('<td></td>').text(course.start);
-		                var cell3 = $('<td></td>').text(course.end);
+		                var cell2 = $('<td></td>').text(course.start.substring(0,16));
+		                var cell3 = $('<td></td>').text(course.end.substring(0,16));
 		                var cell4 = $('<td></td>').text(theRoom[0].title);         
 		                var row = $('<tr></tr>').append([cell1, cell2, cell3, cell4]);
 		                docFrag.append(row);
@@ -605,20 +561,15 @@ h1,h2,h3,h4,h5,h6{
 			<a class="navbar-brand" href="<c:url value="/trainercenter/trainer-welcome.jsp"/>">Temmujin Fitness</a>
 		</div>
 		<div id="navbar" class="navbar-collapse collapse">
-		<c:if test="${not empty trainerLoginOK}">
 			<ul class="nav navbar-nav navbar-right">
-				 <c:if test="${loginidentity=='trainer' }">
 					<li class="dropdown">
 		              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Hi ${trainerLoginOK.trainerID } !</a>
 		              <ul class="dropdown-menu">	                
 		                <li><a href="<c:url value="/blog/postarticle.jsp"/>">Post Article</a></li>
 		              </ul>
 		            </li>
-		            <li><a href="<c:url value="/LogoutServlet"/>">登出</a></li>
-				 </c:if>	
-				
+		            <li><a href="<c:url value="/LogoutServlet"/>">登出</a></li>				
 			</ul>
-		</c:if>
 		</div><!--/.nav-collapse -->
 		</div>
 	</nav>
@@ -630,7 +581,7 @@ h1,h2,h3,h4,h5,h6{
 		<div class="row" style="margin-bottom: 40px;">
 			 <div class="col-md-offset-1 col-md-10">
           		<div style="text-align: center;">
-            		<h1 style="font-weight:bold;font-size: 35px;color:#ffffff;">Coach Course Management</h1>
+            		<h1 style="font-weight:bold;font-size: 50px;color:#002147;" >Coach Course Management</h1>
          		</div>
       		</div>
 		</div>
@@ -640,7 +591,7 @@ h1,h2,h3,h4,h5,h6{
 				</div>
 				<div class="col-md-9">
 					<div class="col-md-4">
-					<select id="kindselct" class=" form-control input-xxlarge">
+					<select id="kindselct" class=" form-control form-control-lg">
 						<option value="all" selected="selected">訓練種類</option>
 						<option value="aerobic">心肺有氧</option>
 						<option value="weighttrain">重量訓練</option>
@@ -649,10 +600,10 @@ h1,h2,h3,h4,h5,h6{
 					</select>					
 					</div>
 					<div class="col-md-4">
-						<select id="gymselect" class="form-control"></select>
+						<select id="gymselect" class="form-control form-control-lg"></select>
 					</div>
 					<div class="col-md-4">
-						<select id="trainerselect" class="form-control"></select>
+						<select id="trainerselect" class="form-control form-control-lg"></select>
 					</div>
 
 				</div>
@@ -661,11 +612,7 @@ h1,h2,h3,h4,h5,h6{
 	</section>
 		
 	<section id="section-cal">
-		<div class="container" >
-			<div class="row" >
 				<div id='calendar' ></div>
-			</div>
-		</div>
 	</section>
 	
 		<section id="section-list" style="display:none;">
@@ -762,7 +709,7 @@ h1,h2,h3,h4,h5,h6{
 		<div class="modal-dialog" role="document">
 			<div class="modal-content">
 				<div class="modal-header">
-					<h5 class="modal-title">訊息</h5>
+					<h5 class="modal-title"></h5>
 					<button type="button" class="close" data-dismiss="modal"
 						aria-label="Close">
 						<span aria-hidden="true">&times;</span>

@@ -24,8 +24,8 @@ public class EventBean implements java.io.Serializable {
 	private String title;
 	private String coursekind;
 	private String e_status;
-	private java.util.Date eventstart; 
-	private java.util.Date eventend; 
+	private java.sql.Timestamp eventstart; 
+	private java.sql.Timestamp eventend; 
 	private Integer enroll;
 	private Integer charge;
 	
@@ -64,23 +64,26 @@ public class EventBean implements java.io.Serializable {
 		this.roomBean = roomBean;
 	}
 	
-	@Temporal(TemporalType.TIMESTAMP)
-	public java.util.Date getEventstart() {
+	public java.sql.Timestamp getEventstart() {
 		return eventstart;
 	}
-	public void setEventstart(java.util.Date eventstart) {
+
+
+	public void setEventstart(java.sql.Timestamp eventstart) {
 		this.eventstart = eventstart;
 	}
-	
-	@Temporal(TemporalType.TIMESTAMP)
-	public java.util.Date getEventend() {
+
+
+	public java.sql.Timestamp getEventend() {
 		return eventend;
 	}
-	public void setEventend(java.util.Date eventend) {
+
+
+	public void setEventend(java.sql.Timestamp eventend) {
 		this.eventend = eventend;
 	}
-	
-	
+
+
 	public String getTitle() {
 		return title;
 	}

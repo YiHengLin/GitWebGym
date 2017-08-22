@@ -48,7 +48,6 @@ public class EventJson {
 		JSONObject jSONObject = null;
 		
 		identity = (identity=="")? "member" :identity;
-		trainersearch = trainersearch.toLowerCase();
 		System.out.println("identity="+identity+", trainersearch="+trainersearch);
 		
 		
@@ -63,6 +62,7 @@ public class EventJson {
 			// Search without Trainer Criteria
 			// Filter ouput events according to 'location' and 'kind'
 			for (EventBean event : events) {
+				
 				if (!("all".equals(location)) && "all".equals(kind)) {
 					if (event.getRoomBean().getLocationBean().getLocationno().equals(Integer.parseInt(location))) {
 						jSONObject = new JSONObject();
@@ -93,7 +93,7 @@ public class EventJson {
 							default:
 								continue;	
 						}
-						if( !(event.getTrainerBean().getTrainerID().toLowerCase().equals(identity)) ){
+						if( !(event.getTrainerBean().getTrainerID().equals(identity)) ){
 							jSONObject.put("editable",false);
 						}
 
@@ -131,7 +131,7 @@ public class EventJson {
 						continue;	
 					}
 					
-					if( !(event.getTrainerBean().getTrainerID().toLowerCase().equals(identity)) ){
+					if( !(event.getTrainerBean().getTrainerID().equals(identity)) ){
 						jSONObject.put("editable",false);
 					}
 					
@@ -167,7 +167,7 @@ public class EventJson {
 						default:
 							continue;	
 						}	
-						if( !(event.getTrainerBean().getTrainerID().toLowerCase().equals(identity)) ){
+						if( !(event.getTrainerBean().getTrainerID().equals(identity)) ){
 							jSONObject.put("editable",false);
 						}
 						jsonArray.put(jSONObject);
@@ -203,7 +203,7 @@ public class EventJson {
 						default:
 							continue;	
 						}
-						if( !(event.getTrainerBean().getTrainerID().toLowerCase().equals(identity)) ){
+						if( !(event.getTrainerBean().getTrainerID().equals(identity)) ){
 							jSONObject.put("editable",false);
 						}
 						jsonArray.put(jSONObject);
@@ -217,7 +217,7 @@ public class EventJson {
 			for (EventBean event : events) {
 				if (!("all".equals(location)) && "all".equals(kind)) {
 					if (event.getRoomBean().getLocationBean().getLocationno().equals(Integer.parseInt(location))) {
-						if(event.getTrainerBean().getTrainerID().toLowerCase().equals(trainersearch)){
+						if(event.getTrainerBean().getTrainerID().equals(trainersearch)){
 							jSONObject = new JSONObject();
 							jSONObject.put("id", event.getEventno());
 							jSONObject.put("title", event.getTitle());		
@@ -246,7 +246,7 @@ public class EventJson {
 								default:
 									continue;	
 							}
-							if( !(event.getTrainerBean().getTrainerID().toLowerCase().equals(identity)) ){
+							if( !(event.getTrainerBean().getTrainerID().equals(identity)) ){
 								jSONObject.put("editable",false);
 							}
 							jsonArray.put(jSONObject);
@@ -259,7 +259,7 @@ public class EventJson {
 						// do nothing...
 					}
 				} else if ("all".equals(location) && "all".equals(kind)) {
-					if(event.getTrainerBean().getTrainerID().toLowerCase().equals(trainersearch)){
+					if(event.getTrainerBean().getTrainerID().equals(trainersearch)){
 						jSONObject = new JSONObject();
 						jSONObject.put("id", event.getEventno());
 						jSONObject.put("title", event.getTitle());
@@ -288,7 +288,7 @@ public class EventJson {
 						default:
 							continue;	
 						}
-						if( !(event.getTrainerBean().getTrainerID().toLowerCase().equals(identity)) ){
+						if( !(event.getTrainerBean().getTrainerID().equals(identity)) ){
 							jSONObject.put("editable",false);
 						}
 						jsonArray.put(jSONObject);
@@ -298,7 +298,7 @@ public class EventJson {
 
 				} else if ("all".equals(location) && !("all".equals(kind))) {
 					if (event.getCoursekind().equals(kind)) {
-						if(event.getTrainerBean().getTrainerID().toLowerCase().equals(trainersearch)){
+						if(event.getTrainerBean().getTrainerID().equals(trainersearch)){
 							jSONObject = new JSONObject();
 							jSONObject.put("id", event.getEventno());
 							jSONObject.put("title", event.getTitle());
@@ -327,7 +327,7 @@ public class EventJson {
 							default:
 								continue;	
 							}	
-							if( !(event.getTrainerBean().getTrainerID().toLowerCase().equals(identity)) ){
+							if( !(event.getTrainerBean().getTrainerID().equals(identity)) ){
 								jSONObject.put("editable",false);
 							}
 							jsonArray.put(jSONObject);
@@ -338,7 +338,7 @@ public class EventJson {
 				} else {
 					if (event.getRoomBean().getLocationBean().getLocationno().equals(Integer.parseInt(location))
 							&& event.getCoursekind().equals(kind)) {
-						if(event.getTrainerBean().getTrainerID().toLowerCase().equals(trainersearch)){
+						if(event.getTrainerBean().getTrainerID().equals(trainersearch)){
 							jSONObject = new JSONObject();
 							jSONObject.put("id", event.getEventno());
 							jSONObject.put("title", event.getTitle());
@@ -367,7 +367,7 @@ public class EventJson {
 							default:
 								continue;	
 							}
-							if( !(event.getTrainerBean().getTrainerID().toLowerCase().equals(identity)) ){
+							if( !(event.getTrainerBean().getTrainerID().equals(identity)) ){
 								jSONObject.put("editable",false);
 							}
 							jsonArray.put(jSONObject);
